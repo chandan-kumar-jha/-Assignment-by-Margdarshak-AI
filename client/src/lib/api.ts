@@ -89,10 +89,9 @@ export const api = {
   },
 
   // Get all roadmaps
-  getAll(): Promise<Roadmap[]> {
-    return apiFetch<Roadmap>(BASE_URL);
-  },
-
+ getAll(): Promise<Roadmap[]> {
+  return apiFetch<Roadmap[]>(BASE_URL);
+},
   // Get roadmap by ID
   getOne(id: string): Promise<Roadmap> {
     return apiFetch<Roadmap>(
