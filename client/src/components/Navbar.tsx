@@ -45,7 +45,7 @@ export default function Navbar() {
             gap: 1,
           }}
         >
-          🗺️ Mini Margdarshak AI
+          🗺️ Margdarshak AI
         </Typography>
 
         <Box sx={{ display: "flex", gap: 1 }}>
