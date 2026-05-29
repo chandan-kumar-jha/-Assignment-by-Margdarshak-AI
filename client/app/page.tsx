@@ -1,14 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 
 import {
   Box,
   Chip,
   Container,
-  Divider,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -16,12 +14,35 @@ import {
 import Navbar from "@/components/Navbar";
 import RoadmapForm from "@/components/RoadmapForm";
 import RecentHistory from "@/components/RecentHistory";
+import RoadmapViewer from "@/components/RoadmapViewer";
 
 import { Roadmap } from "@/lib/api";
 
 export default function HomePage() {
+  // Load roadmap from localStorage on initial render
   const [roadmap, setRoadmap] =
-    useState<Roadmap | null>(null);
+    useState<Roadmap | null>(() => {
+      if (typeof window === "undefined") {
+        return null;
+      }
+
+      const savedRoadmap =
+        localStorage.getItem("latest-roadmap");
+
+      return savedRoadmap
+        ? JSON.parse(savedRoadmap)
+        : null;
+    });
+
+  // Persist roadmap whenever it changes
+  useEffect(() => {
+    if (roadmap) {
+      localStorage.setItem(
+        "latest-roadmap",
+        JSON.stringify(roadmap)
+      );
+    }
+  }, [roadmap]);
 
   return (
     <>
@@ -33,16 +54,15 @@ export default function HomePage() {
           py: 6,
         }}
       >
-        {/* HERO */}
-
-       <Stack
-           spacing={3}
-            sx={{
-               alignItems: "center",
-               textAlign: "center",
-               mb: 6,
-              }}
-      >
+        {/* Hero Section */}
+        <Stack
+          spacing={3}
+          sx={{
+            alignItems: "center",
+            textAlign: "center",
+            mb: 6,
+          }}
+        >
           <Chip
             label="🧭 Assignment by Margdarshak AI"
             color="primary"
@@ -55,7 +75,7 @@ export default function HomePage() {
             sx={{
               fontWeight: 700,
             }}
-          > 
+          >
             Your Career,{" "}
             <Box
               component="span"
@@ -71,7 +91,7 @@ export default function HomePage() {
             variant="body1"
             color="text.secondary"
             sx={{
-              maxWidth:700
+              maxWidth: 700,
             }}
           >
             Generate a personalized
@@ -81,8 +101,7 @@ export default function HomePage() {
           </Typography>
         </Stack>
 
-        {/* MAIN LAYOUT */}
-
+        {/* Main Layout */}
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Stack spacing={3}>
@@ -90,69 +109,9 @@ export default function HomePage() {
                 onGenerated={setRoadmap}
               />
 
-              {roadmap && (
-                <Paper sx={{ p: 3 }}>
-                  <Stack spacing={2}>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        fontWeight:700
-                      }}
-                    >
-                      Generated Roadmap
-                    </Typography>
-
-                    <Divider />
-
-                    <Typography
-                      variant="subtitle1"
-                     sx={{
-                      fontWeight:600
-                     }}
-                    >
-                      {roadmap.targetRole}
-                    </Typography>
-
-                    <Chip
-                      label={
-                        roadmap.experienceLevel
-                      }
-                      color="primary"
-                      sx={{
-                        width: "fit-content",
-                      }}
-                    />
-
-                    <Stack spacing={2}>
-                      {roadmap.roadmap.map(
-                        (step, index) => (
-                          <Paper
-                            key={index}
-                            variant="outlined"
-                            sx={{
-                              p: 2,
-                            }}
-                          >
-                            <Typography
-                             sx={{
-                              fontWeight:600
-                             }}
-                            >
-                              Step {index + 1}
-                            </Typography>
-
-                            <Typography
-                              color="text.secondary"
-                            >
-                              {step}
-                            </Typography>
-                          </Paper>
-                        )
-                      )}
-                    </Stack>
-                  </Stack>
-                </Paper>
-              )}
+              <RoadmapViewer
+                roadmap={roadmap}
+              />
             </Stack>
           </Grid>
 
@@ -164,5 +123,3 @@ export default function HomePage() {
     </>
   );
 }
-
-
