@@ -65,20 +65,98 @@ export default function RecentHistory() {
   };
 
   if (loading) {
-    return (
-      <Stack spacing={2}>
+  return (
+    <Stack spacing={2}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Skeleton
-          variant="rounded"
-          height={160}
+          variant="text"
+          width={180}
+          height={40}
         />
-        <Skeleton
-          variant="rounded"
-          height={160}
-        />
-      </Stack>
-    );
-  }
 
+        <Skeleton
+          variant="rounded"
+          width={90}
+          height={32}
+        />
+      </Box>
+
+      {[1, 2, 3].map((item) => (
+        <Card key={item}>
+          <CardContent>
+            <Stack spacing={1.5}>
+              <Skeleton
+                variant="text"
+                width="60%"
+                height={30}
+              />
+
+              <Skeleton
+                variant="rounded"
+                width={110}
+                height={28}
+              />
+
+              <Skeleton
+                variant="text"
+                width="40%"
+              />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
+                <Skeleton
+                  variant="rounded"
+                  width={60}
+                  height={24}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={80}
+                  height={24}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={70}
+                  height={24}
+                />
+              </Box>
+
+              <Skeleton
+                variant="text"
+                width="90%"
+              />
+            </Stack>
+          </CardContent>
+
+          <CardActions>
+            <Skeleton
+              variant="rounded"
+              width={110}
+              height={32}
+            />
+
+            <Skeleton
+              variant="rounded"
+              width={70}
+              height={32}
+            />
+          </CardActions>
+        </Card>
+      ))}
+    </Stack>
+  );
+}
   if (roadmaps.length === 0) {
     return (
       <Paper

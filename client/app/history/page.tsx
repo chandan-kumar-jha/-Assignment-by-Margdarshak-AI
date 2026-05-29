@@ -13,7 +13,7 @@ import {
   Container,
   Stack,
   Typography,
-  CircularProgress,
+  Skeleton,
 } from "@mui/material";
 
 import Navbar from "@/components/Navbar";
@@ -84,15 +84,72 @@ export default function HistoryPage() {
           Roadmap History
         </Typography>
 
-        {loading ? (
+       {loading ? (
+  <Stack spacing={2}>
+    {[1, 2, 3, 4].map((item) => (
+      <Card key={item}>
+        <CardContent>
+          <Stack spacing={1.5}>
+            <Skeleton
+              variant="text"
+              width="40%"
+              height={35}
+            />
+
+            <Skeleton
+              variant="rounded"
+              width={110}
+              height={28}
+            />
+
+            <Skeleton
+              variant="text"
+              width="35%"
+            />
+
             <Box
-                sx={{
-                textAlign: "center",
-                    }}
+              sx={{
+                display: "flex",
+                gap: 1,
+                flexWrap: "wrap",
+              }}
             >
-            <CircularProgress />
-          </Box>
-        ) : roadmaps.length === 0 ? (
+              <Skeleton
+                variant="rounded"
+                width={70}
+                height={24}
+              />
+              <Skeleton
+                variant="rounded"
+                width={90}
+                height={24}
+              />
+              <Skeleton
+                variant="rounded"
+                width={80}
+                height={24}
+              />
+            </Box>
+          </Stack>
+        </CardContent>
+
+        <CardActions>
+          <Skeleton
+            variant="rounded"
+            width={70}
+            height={32}
+          />
+
+          <Skeleton
+            variant="rounded"
+            width={70}
+            height={32}
+          />
+        </CardActions>
+      </Card>
+    ))}
+  </Stack>
+) :  roadmaps.length === 0 ? (
           <Typography color="text.secondary">
             No roadmaps found.
           </Typography>
